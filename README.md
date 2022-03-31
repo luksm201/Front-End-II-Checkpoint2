@@ -26,7 +26,6 @@
     <ul>
       <li>Nenhum campo pode ser vazio.</li>
       <li>A descrição deve ter mais que 10 caracteres.</li>
-      <li>IMPORTANTE: Quando o usuário não preencher corretamente deve ser exibido um alerta indicando que existem erros na criação da tarefa.</li>
-      <li>OPCIONAL/EXTRA: a data limite da tarefa deve ser hoje ou no futuro.</li>
+      <li>Quando o usuário não preencher os campos corretamente, exibir mensagem indicando que existem erros no preenchimento.</li>
   </ul>
 </ol>
