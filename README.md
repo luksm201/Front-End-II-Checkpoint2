@@ -1,13 +1,15 @@
 <h1 align="center">MATERIA FRONT-END II - CHECKPOINT FRONT END II </h1>
 
-<h2>🛠️ Construído por</h2>
+<h>Construído por</h2>
 
 - [Aanderson Silva](https://github.com/andersonsilva8609)
 - [Hebert Santos](https://github.com/HbTechdev)
 - [Henrique Arantes](https://github.com/)
 - [Lucas Mota](https://github.com/)
 - [Mozarth Spier](https://github.com/mozarthspier)
+
 <br>
+
 <h2>Requisitos </h2>
 
 <ol>
