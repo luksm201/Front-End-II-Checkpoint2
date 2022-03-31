@@ -1,0 +1,231 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Karla", sans-serif;
+  font-size: 10px;
+}
+
+html{
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  background-image: linear-gradient(
+    180deg,
+    #e0e59e 0,
+    #e8e99d 8.33%,
+    #edec9c 16.67%,
+    #eff09c 25%,
+    #e8f19c 33.33%,
+    #e5f29c 41.67%,
+    #a4f29d 50%,
+    #96f19a 58.33%,
+    #a0ef90 66.67%,
+    #8dec8a 75%,
+    #88e984 83.33%,
+    #80e499 91.67%,
+    #7ce084 100%
+  );
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; 
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cadastro {
+  background-color: white;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 2rem;
+  border: 2px solid rgb(255, 255, 255);
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  border-radius: .5rem;
+  width: 26rem;
+  height: 45rem;
+  min-height: 300px;
+  padding-bottom: 10rem;
+}
+
+.login {
+  background-color: white;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 2rem;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: .5rem;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  width: 26rem;
+  height: 50rem;
+  min-height: 300px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  color: #2f38a2;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+h2{
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  color: #2f38a2;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+#H2{
+  text-align: center;
+  font-size: 4rem;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  color: #2f38a2;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.label-float{
+    position: relative;
+    margin: 0.5rem;
+    font-size: 5rem;
+  }
+
+#labelNome, #labelSenha, #labelConfirmSenha, #labelEmail, #emaillabel, #senhalabel{
+    font-size: 2rem;
+}
+
+.label-float input{
+  width: 24rem;
+  padding: 5px;
+  display: inline-block;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  font-size: 1.5rem;
+  transition: all .3s ease-out;
+  border-radius: .2rem;
+  background-color: #d2eaed;
+  height: 2.5rem;
+  color: #6b705c;
+}
+
+.label-float label{
+  color: #2f38a2;
+  font-size: 2rem;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.label-float input:focus + label,
+.label-float input:valid + label{
+  font-size: 2rem;
+  margin-top: 0;
+  color: #2f38a2;
+}
+
+button{
+  border: none;
+  background-color: #8488ac;
+  padding: .8rem;
+  width: 12rem;
+  border-radius: .5rem;
+  align-self: center;
+  color: #dee0fc;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  cursor: pointer;
+  transition: all .4s ease-out;
+}
+
+button:hover{
+  background-color: rgb(182, 17, 127);
+}
+
+.botao{
+  display: flex;
+  justify-content: center;
+  height: 4rem;
+}
+
+.redirec{
+justify-content: center;
+}
+
+#cdst{
+  background-color: transparent;
+  border: 0;
+  color:black;
+  font-weight: bold;
+  font-size: 2rem;
+  outline: none;
+  transition: all .4s ease-out;
+}
+
+hr{
+  margin-top: 15%;
+  margin-bottom: 10%;
+  width: 60%;
+}
+
+p{
+  color: #272262;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+a{
+  font-size: 20px;
+  color: #7a3077;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all .3s ease-out;
+}
+
+a:hover{
+  color: #272262;
+}
+
+/* MEDIA QUERIES */
+
+@media (min-width: 481px) {
+  .cadastro {
+    width: 40rem;
+  }
+
+  .login {
+    width: 40rem;
+    /* display: flex; */
+  }
+
+  .label-float, input {
+    margin-left: 4rem;
+  }
+
+  button {
+    margin-top: 6rem;
+  }
+
+  p {
+    margin-top: 4rem;
+  }
+}
