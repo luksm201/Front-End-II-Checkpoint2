@@ -47,6 +47,12 @@ input:focus {
   border: 1px solid lightgrey;
 }
 
+input.invalid {
+
+  background-color: lightcoral;
+
+}
+
 label {
   width: 100%;
   font-weight: 300;
