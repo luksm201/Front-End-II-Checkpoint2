@@ -5,7 +5,7 @@ let buttonReference = document.querySelector("button");
 
 function validateForm() {
 
-    formReference.checkValidity() ? buttonReference.disabled = false : buttonReference.disabled = true;
+    formReference.checkValidity() ? buttonReference.classList.remove("disabled") : buttonReference.classList.add("disabled");
 
 }
 

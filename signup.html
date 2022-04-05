@@ -12,7 +12,7 @@
 
   <!-- ---------------------- lógica aplicada no registro -------------------- -->
   <script src="/scripts/utils.js"></script>
-  <script src="/scripts/signup.js"></script>
+  <script src="/scripts/signup.js" defer></script>
 
 </head>
 
@@ -29,26 +29,26 @@
 
       <label>
         Nome:
-        <input type="text">
+        <input id="inputNome" type="text" required>
       </label>
       <label>
         Sobrenome:
-        <input type="text">
+        <input id="inputSobrenome" type="text" required>
       </label>
       <label>
         Email:
-        <input type="text">
+        <input id="inputEmail" type="email" required>
       </label>
       <label>
         Senha:
-        <input type="password">
+        <input id="inputSenha" type="password" required minlength="6">
       </label>
       <label>
         Repetir senha:
-        <input type="password">
+        <input id="inputRepetirSenha" type="password" required>
       </label>
 
-      <button>Criar conta</button>
+      <button disabled>Criar conta</button>
 
     </form>
     <div class="ingressar">
