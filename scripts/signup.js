@@ -47,12 +47,13 @@ buttonReference.addEventListener("click", event => {
 
     const novoUsuario = {
 
-        firstName: inputNomeReference.value,
-        lastName: inputSobrenomeReference.value,
-        email: inputEmailReference.value,
+        firstName: inputNomeReference.value.trim().toLowerCase(),
+        lastName: inputSobrenomeReference.value.trim().toLowerCase(),
+        email: inputEmailReference.value.trim().toLowerCase(),
         password: inputSenhaReference.value
-
     }
+
+
 
     const requestConfiguration = {
 
@@ -65,14 +66,27 @@ buttonReference.addEventListener("click", event => {
     }
 
     fetch('https://ctd-todo-api.herokuapp.com/v1/users', requestConfiguration)
-    .then( response => response.json())
+    .then( response => {
+        
+        if(response.ok)
+        {
+            return response.json()
+        }
+        else if(response.status === 400){
+            alert("Usuário já existente, tente novamente")
+        }
+        else {
+            alert("Opss, houve um erro nesta página")   
+        }
+    }
+    )
     .then( data => {
-
         localStorage.setItem('token', data.jwt)
-        console.log("Hello")
-
-    });
-
-    // window.location.href = '/index.html';
-
+        window.location.href = '/index.html';
+    })
+    .catch(error => { 
+        console.log(error)
+        window.location.reload()
+    }
+    )
 })
