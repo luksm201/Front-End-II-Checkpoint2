@@ -29,6 +29,7 @@ fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', requestConfiguration)
 )
 .then(data =>{
 renderizapagina(data)
+renderizatarefas()
 })
 .catch(error => { 
     console.log(error)
@@ -42,7 +43,37 @@ function renderizapagina(infoUsuario){
 }
 
 function renderizatarefas(){
-    fetch('https://ctd-todo-api.herokuapp.com/v1/tasks', requestConfiguration)
+ fetch('https://ctd-todo-api.herokuapp.com/v1/tasks', requestConfiguration)
         .then(response => response.json())
-        .then(data=>)
+        .then(tarefas => {
+            const tarefasIncompletas = document.querySelector(".tarefas-pendentes")
+            tarefasIncompletas.innerHTML = ''
+                if (tarefas.length === 0){
+            tarefasIncompletas.innerHTML += `<li class="tarefa">
+            <div class="not-done"></div>
+            <div class="descricao">
+            <p class="nome">Você não tem tarefas, crie uma tarefa.</p>
+            </div>
+            </li>`
+            }
+            else {
+                for (tarefa of tarefas){
+                let formatoData = tarefa.createdAt.format("MMMM Do YYYY, h:mm:ss a")    
+                tarefasIncompletas.innerHTML += `<li class="tarefa">
+                <div class="not-done"></div>
+                <div class="descricao">
+                <p class="nome">${tarefa.description}</p>
+                <p class="timestamp">Criada em ${formatoData}</p>
+                </div>
+                </li>`
+
+                }
+            }
+           
+        })
+        
+    
 }
+
+
+
