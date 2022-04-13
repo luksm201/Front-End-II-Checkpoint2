@@ -207,9 +207,9 @@ a {
   margin: 2em 15%;
 }
 
-.tarefas-terminadas i{
+.tarefas-terminadas li{
   color: grey;
-  background-color: rgb(228, 228, 228);
+  background-color: rgb(255, 255, 255);
 }
 .tarefas-terminadas button{
   margin-left: 10px;
@@ -223,6 +223,12 @@ a {
   color: grey;
   text-decoration: line-through;
 }
+
+.tarefas-terminadas .not-done {
+  background-color: var(--secondary);
+}
+
+
 
 #skeleton .descricao{
   background-color: rgb(189, 189, 189);

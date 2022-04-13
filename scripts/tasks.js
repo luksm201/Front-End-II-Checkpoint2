@@ -2,11 +2,10 @@ let logged = localStorage.getItem("token")
 
 
 const requestConfiguration = {
-headers: {
-    'Content-Type': 'application/json',
-    'Authorization': logged
-}
-
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': logged
+    }
 }
 
 fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', requestConfiguration)
@@ -29,7 +28,7 @@ fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', requestConfiguration)
 )
 .then(data =>{
 renderizapagina(data)
-renderizatarefas()
+renderizaTarefas()
 })
 .catch(error => { 
     console.log(error)
@@ -42,11 +41,16 @@ function renderizapagina(infoUsuario){
     usuarioLogado.innerText = infoUsuario.firstName +' '+ infoUsuario.lastName
 }
 
-function renderizatarefas(){
+function renderizaTarefas(){
  fetch('https://ctd-todo-api.herokuapp.com/v1/tasks', requestConfiguration)
         .then(response => response.json())
         .then(tarefas => {
             const tarefasIncompletas = document.querySelector(".tarefas-pendentes")
+            
+            const tarefasCompletas = document.querySelector(".tarefas-terminadas")
+
+            tarefasCompletas.innerHTML = ''
+            
             tarefasIncompletas.innerHTML = ''
                 if (tarefas.length === 0){
             tarefasIncompletas.innerHTML += `<li class="tarefa">
@@ -58,21 +62,76 @@ function renderizatarefas(){
             }
             else {
                 for (tarefa of tarefas){
-                let formatoData = tarefa.createdAt.format("MMMM Do YYYY, h:mm:ss a")    
-                tarefasIncompletas.innerHTML += `<li class="tarefa">
-                <div class="not-done"></div>
-                <div class="descricao">
-                <p class="nome">${tarefa.description}</p>
-                <p class="timestamp">Criada em ${formatoData}</p>
-                </div>
-                </li>`
+                    let tarefaData = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(tarefa.createdAt))    
 
+                    if(tarefa.completed){
+                        tarefasCompletas.innerHTML += `<li class="tarefa">
+                        <div class="not-done"></div>
+                        <div class="descricao">
+                        <p class="nome">${tarefa.description}</p>
+                        <p class="timestamp">Criada em ${tarefaData}</p>
+                        </div>
+                        </li>`
+                    }
+                    else{
+                        tarefasIncompletas.innerHTML += `<li class="tarefa">
+                        <div class="not-done" onclick="atualizaTarefa(${tarefa.id})"></div>
+                        <div class="descricao">
+                        <p class="nome">${tarefa.description}</p>
+                        <p class="timestamp">Criada em ${tarefaData}</p>
+                        </div>
+                        </li>`
+                    }
                 }
-            }
-           
-        })
-        
+            }         
+        })  
+}
+
+function criaTarefa(){
     
+    let inputTarefaReference = document.querySelector("#novaTarefa")
+
+    let novaTarefa = {
+        description: inputTarefaReference.value,
+        completed: false
+    }
+
+    const requestPostConfiguration = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': logged
+        },
+        body: JSON.stringify(novaTarefa), 
+        method: "POST"
+    }
+    
+    fetch('https://ctd-todo-api.herokuapp.com/v1/tasks', requestPostConfiguration)
+        .then(response => response.json())
+        .then( () => {
+            renderizaTarefas()
+        })
+}
+
+let buttonCriarTarefaReference = document.querySelector("#criarTarefa")
+
+buttonCriarTarefaReference.addEventListener("click", event => {
+    event.preventDefault();
+    criaTarefa();
+})
+
+let marcadorReference = document.querySelector('ul');
+list.addEventListener('click', event => {
+  if( event.target.tagName === 'LI') {
+     event.target.classList.toggle('done');
+
+  }
+}, false);
+
+
+function atualizaTarefa(id){
+
+
+
 }
 
 
