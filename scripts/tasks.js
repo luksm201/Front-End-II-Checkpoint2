@@ -7,7 +7,7 @@ const requestConfiguration = {
         'Authorization': logged
     }
 }
-
+ 
 fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', requestConfiguration)
 
 .then( response => {
@@ -16,13 +16,11 @@ fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', requestConfiguration)
     {
         return response.json()
     }
-    else if(response.status === 404){
+    else if(response.status === 404 || response.status === 401){
         alert("Usuário não existe")
-        window.location.href = '/index.html';
     }
     else {
-        alert("Xi...deu ruim no server! Faz de novo.")  
-        window.location.href = '/index.html'; 
+        alert("Xi...deu ruim no server! Faz de novo.")   
     }
 }
 )
@@ -31,8 +29,7 @@ renderizapagina(data)
 renderizaTarefas()
 })
 .catch(error => { 
-    console.log(error)
-    window.location.reload()
+    window.location.href = '/index.html';
 }
 )
 
@@ -66,7 +63,7 @@ function renderizaTarefas(){
 
                     if(tarefa.completed){
                         tarefasCompletas.innerHTML += `<li class="tarefa">
-                        <div class="not-done"></div>
+                        <div class="not-done done" onclick="deletaTarefa(${tarefa.id})"></div>
                         <div class="descricao">
                         <p class="nome">${tarefa.description}</p>
                         <p class="timestamp">Criada em ${tarefaData}</p>
@@ -108,6 +105,7 @@ function criaTarefa(){
     fetch('https://ctd-todo-api.herokuapp.com/v1/tasks', requestPostConfiguration)
         .then(response => response.json())
         .then( () => {
+            inputTarefaReference.value = ""
             renderizaTarefas()
         })
 }
@@ -119,20 +117,58 @@ buttonCriarTarefaReference.addEventListener("click", event => {
     criaTarefa();
 })
 
-let marcadorReference = document.querySelector('ul');
-list.addEventListener('click', event => {
-  if( event.target.tagName === 'LI') {
-     event.target.classList.toggle('done');
-
-  }
-}, false);
+// let marcadorReference = document.querySelector('ul');
+// marcadorReference.addEventListener('click', event => {
+//   if( event.target.tagName === 'LI') {
+//      event.target.classList.toggle('done');
+//   }
+// }, false);
 
 
 function atualizaTarefa(id){
 
+    let tarefaAtualizada = {
+        completed: true
+    }
 
-
+    const requestPutConfiguration = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': logged
+        },
+        body: JSON.stringify(tarefaAtualizada), 
+        method: "PUT"
+    }
+    
+    fetch(`https://ctd-todo-api.herokuapp.com/v1/tasks/${id}`, requestPutConfiguration)
+        .then(response => response.json())
+        .then( () => {
+            renderizaTarefas()
+        })
 }
+
+function deletaTarefa(id)
+{
+    const requestDeleteConfiguration = {
+        headers: {
+            'Authorization': logged
+        },
+        method: "DELETE"
+    }
+    
+    fetch(`https://ctd-todo-api.herokuapp.com/v1/tasks/${id}`, requestDeleteConfiguration)
+        .then(response => response.json())
+        .then( () => {
+            renderizaTarefas()
+        })
+}
+
+const finalizarSessaoReference = document.querySelector("#closeApp")
+
+finalizarSessaoReference.addEventListener("click", event => {
+    localStorage.removeItem("token")
+    window.location.href = '/index.html';
+})
 
 
 
