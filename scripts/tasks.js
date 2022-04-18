@@ -63,19 +63,21 @@ function renderizaTarefas(){
 
                     if(tarefa.completed){
                         tarefasCompletas.innerHTML += `<li class="tarefa">
-                        <div class="not-done done" onclick="deletaTarefa(${tarefa.id})"></div>
+                        <div class="not-done done" onclick="reiniciaTarefa(${tarefa.id})"></div>
                         <div class="descricao">
                         <p class="nome">${tarefa.description}</p>
                         <p class="timestamp">Criada em ${tarefaData}</p>
+                        <img src="./assets/lixo.png" class="iconeLixo" onclick="deletaTarefa(${tarefa.id})">
                         </div>
                         </li>`
                     }
                     else{
                         tarefasIncompletas.innerHTML += `<li class="tarefa">
-                        <div class="not-done" onclick="atualizaTarefa(${tarefa.id})"></div>
+                        <div class="not-done" onclick="completaTarefa(${tarefa.id})"></div>
                         <div class="descricao">
                         <p class="nome">${tarefa.description}</p>
                         <p class="timestamp">Criada em ${tarefaData}</p>
+                        <img src="./assets/lixo.png" class="iconeLixo" onclick="deletaTarefa(${tarefa.id})">
                         </div>
                         </li>`
                     }
@@ -117,15 +119,8 @@ buttonCriarTarefaReference.addEventListener("click", event => {
     criaTarefa();
 })
 
-// let marcadorReference = document.querySelector('ul');
-// marcadorReference.addEventListener('click', event => {
-//   if( event.target.tagName === 'LI') {
-//      event.target.classList.toggle('done');
-//   }
-// }, false);
 
-
-function atualizaTarefa(id){
+function completaTarefa(id){
 
     let tarefaAtualizada = {
         completed: true
@@ -147,6 +142,32 @@ function atualizaTarefa(id){
         })
 }
 
+
+function reiniciaTarefa(id){
+
+    let tarefaAtualizada = {
+        completed: false
+    }
+
+    const requestPutConfiguration = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': logged
+        },
+        body: JSON.stringify(tarefaAtualizada), 
+        method: "PUT"
+    }
+    
+    fetch(`https://ctd-todo-api.herokuapp.com/v1/tasks/${id}`, requestPutConfiguration)
+        .then(response => response.json())
+        .then( () => {
+            renderizaTarefas()
+        })
+}
+
+
+
+
 function deletaTarefa(id)
 {
     const requestDeleteConfiguration = {
@@ -156,11 +177,24 @@ function deletaTarefa(id)
         method: "DELETE"
     }
     
-    fetch(`https://ctd-todo-api.herokuapp.com/v1/tasks/${id}`, requestDeleteConfiguration)
-        .then(response => response.json())
-        .then( () => {
-            renderizaTarefas()
-        })
+    Swal.fire({
+        title: 'Você tem certeza disso?',
+        text: "Não dá pra voltar atrás, campeão!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, delete!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`https://ctd-todo-api.herokuapp.com/v1/tasks/${id}`, requestDeleteConfiguration)
+            .then(response => response.json())
+            .then( () => {
+                renderizaTarefas()
+            })
+        }
+      })
 }
 
 const finalizarSessaoReference = document.querySelector("#closeApp")

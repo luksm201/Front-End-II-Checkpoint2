@@ -228,6 +228,10 @@ a {
   background-color: var(--secondary);
 }
 
+.iconeLixo {
+width: 35px;
+cursor: pointer
+}
 
 
 #skeleton .descricao{
