@@ -56,7 +56,7 @@ buttonReference.addEventListener("click", event => {
             alert("Senha Incorreta")
         }
         else if(response.status === 404){
-            alert("Usuário já existente")
+            alert("Usuário não existe")
         }
         else {
             alert("Opss, houve um erro nesta página")   
