@@ -1,17 +1,16 @@
-let inputEmailReference = document.querySelector("#inputEmail");
-let inputSenhaReference = document.querySelector("#inputPassword");
-let formReference = document.querySelector("form");
-let buttonReference = document.querySelector("button");
+const inputEmailReference = document.querySelector("#inputEmail");
+const inputSenhaReference = document.querySelector("#inputPassword");
+const formReference = document.querySelector("form");
+const buttonReference = document.querySelector("button");
 
 function validateForm() {
 
-    if (formReference.checkValidity()){
-        buttonReference.classList.remove("disabled")
-        buttonReference.disabled = false
-    }
-    else{
-        buttonReference.classList.add("disabled")
-        buttonReference.disabled = true
+    if (formReference.checkValidity()) {
+        buttonReference.classList.remove("disabled");
+        buttonReference.disabled = false;
+    } else {
+        buttonReference.classList.add("disabled");
+        buttonReference.disabled = true;
     }
 
 }
@@ -31,7 +30,7 @@ buttonReference.addEventListener("click", event => {
     
     event.preventDefault();
 
-    const Usuario = {
+    const user = {
         email: inputEmailReference.value.trim().toLowerCase(),
         password: inputSenhaReference.value
     }
@@ -39,37 +38,33 @@ buttonReference.addEventListener("click", event => {
     const requestConfiguration = {
 
         method: 'POST',
-        body: JSON.stringify(Usuario),
+        body: JSON.stringify(user),
         headers: {
             'Content-Type': 'application/json'
         }
+    
     }
 
     fetch('https://ctd-todo-api.herokuapp.com/v1/users/login', requestConfiguration)
-    .then( response => {
+        .then( response => {
         
-        if(response.ok)
-        {
-            return response.json()
-        }
-        else if(response.status === 400){
-            alert("Senha Incorreta")
-        }
-        else if(response.status === 404){
-            alert("Usuário não existe")
-        }
-        else {
-            alert("Opss, houve um erro nesta página")   
-        }
-    }
-    )
-    .then( data => {
-        localStorage.setItem('token', data.jwt)
-        window.location.href = './tarefas.html';
-    })
-    .catch(error => { 
-        console.log(error)
-        window.location.reload()
-    }
-    )
+            if (response.ok) {
+                return response.json()
+            } else if (response.status === 400){
+                alert("Senha Incorreta");
+            } else if(response.status === 404){
+                alert("Usuário não existe");
+            } else {
+                alert("Opss, houve um erro nesta página");
+            }
+
+        })
+        .then( data => {
+            localStorage.setItem('token', data.jwt);
+            window.location.href = './tarefas.html';
+        })
+        .catch(error => { 
+            console.log(error);
+            window.location.reload();
+        })
 })

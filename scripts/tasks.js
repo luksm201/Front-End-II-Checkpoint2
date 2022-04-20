@@ -14,8 +14,7 @@ fetch('https://ctd-todo-api.herokuapp.com/v1/users/getMe', getRequestConfigurati
         } else if(response.status === 404 || response.status === 401){
             alert("Usuário não existe.");
             throw new Error(`Erro: Usuário não existe. Status code: ${response.status}`);
-        }
-        else {
+        } else {
             alert("Erro no servidor. Tente fazer login novamente.");
             throw new Error(`Erro: Erro no servidor. Status code: ${response.status}`); 
         }

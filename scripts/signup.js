@@ -8,7 +8,13 @@ const buttonReference = document.querySelector("button");
 
 function validateForm() {
 
-    formReference.checkValidity() && validar_senha() ? buttonReference.disabled = false : buttonReference.disabled = true;
+    if (formReference.checkValidity() && checkIfPasswordFieldsAreEqual()) {
+        buttonReference.disabled = false;
+        buttonReference.classList.remove("disabled"); 
+    } else { 
+        buttonReference.disabled = true;
+        buttonReference.classList.add("disabled");
+    }
 
 }
 
@@ -28,37 +34,42 @@ inputNomeReference.onchange = validateField;
 inputSobrenomeReference.onchange = validateField;
 inputEmailReference.onchange = validateField;
 inputSenhaReference.onchange = validateField;
-inputRepetirSenhaReference.onchange = validar_senha;
+inputRepetirSenhaReference.onchange = validateRepeatPasswordField;
 
-function validar_senha() {
-    let senha = inputSenhaReference.value;
-    let senhaRepetir = inputRepetirSenhaReference.value;
-    if ((senha != senhaRepetir) ||
-      (senha == "") || (senhaRepetir == "")) {
-      return false;
+function checkIfPasswordFieldsAreEqual() {
+
+    const password = inputSenhaReference.value;
+    const repeatPassword = inputRepetirSenhaReference.value;
+
+    return !((password != repeatPassword) || (password == "") || (repeatPassword == ""));
+
+}
+
+function validateRepeatPasswordField(event) {
+
+    if (checkIfPasswordFieldsAreEqual()) {
+        event.target.classList.remove("invalid");
     } else {
-      return true;
+        event.target.classList.add("invalid");
     }
-  }
+
+}
 
 buttonReference.addEventListener("click", event => {
 
     event.preventDefault();
 
-    const novoUsuario = {
-
+    const newUser = {
         firstName: inputNomeReference.value.trim().toLowerCase(),
         lastName: inputSobrenomeReference.value.trim().toLowerCase(),
         email: inputEmailReference.value.trim().toLowerCase(),
         password: inputSenhaReference.value
     }
 
-
-
     const requestConfiguration = {
 
         method: 'POST',
-        body: JSON.stringify(novoUsuario),
+        body: JSON.stringify(newUser),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -66,27 +77,24 @@ buttonReference.addEventListener("click", event => {
     }
 
     fetch('https://ctd-todo-api.herokuapp.com/v1/users', requestConfiguration)
-    .then( response => {
-        
-        if(response.ok)
-        {
-            return response.json()
+        .then( response => {
+            
+            if(response.ok) {
+                return response.json()
+            } else if(response.status === 400){
+                alert("Usuário já existente, tente novamente")
+            } else {
+                alert("Opss, houve um erro nesta página")   
+            }
+
+        })
+        .then( data => {
+            localStorage.setItem('token', data.jwt)
+            window.location.href = '/index.html';
+        })
+        .catch(error => { 
+            console.log(error)
+            window.location.reload()
         }
-        else if(response.status === 400){
-            alert("Usuário já existente, tente novamente")
-        }
-        else {
-            alert("Opss, houve um erro nesta página")   
-        }
-    }
-    )
-    .then( data => {
-        localStorage.setItem('token', data.jwt)
-        window.location.href = '/index.html';
-    })
-    .catch(error => { 
-        console.log(error)
-        window.location.reload()
-    }
-    )
+        )
 })
